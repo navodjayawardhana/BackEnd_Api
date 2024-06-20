@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Models\Student;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreStudentRequest;
-use App\Http\Requests\UpdateStudentRequest;
+use App\Http\Requests\V1\StoreStudentRequest;
+use App\Http\Requests\V1\UpdateStudentRequest;
 use App\Http\Resources\V1\StudentResource;
-use App\Http\Resources\V1\StudentCollection;
+use App\Http\Resources\V1\StudentCollection; 
 use App\Filters\V1\StudentFilter;
 use Illuminate\Http\Request;
 class StudentController extends Controller

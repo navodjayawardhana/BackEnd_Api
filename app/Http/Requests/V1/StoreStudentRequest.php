@@ -3,7 +3,6 @@
 namespace App\Http\Requests\V1;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class StoreStudentRequest extends FormRequest
 {
@@ -12,9 +11,15 @@ class StoreStudentRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize(): bool
+    public function authorize()
     {
-        return true; // Authorization logic can be implemented here if needed
+       
+       $user =$this->user();
+        
+        return $user = null && $user->tokenCan('create'); 
+
+        
+        //return true;
     }
 
     /**
@@ -25,25 +30,11 @@ class StoreStudentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:students,email',
-            'date_of_birth' => 'required|date',
-            'address' => 'nullable|string|max:255',
+            'name' => ['required'],
+            'email' => ['required','email'],
+            'date_of_birth' => ['required'],
+            'address' => ['required'],
         ];
     }
 
-    protected function prepareForValidation()
-    {
-        $this->merge([
-            'name' => strtoupper($this->name),
-        ]);
-
-        if (!$this->has('address')) {
-            $this->merge([
-                'address' => 'Default Address',
-            ]);
-    }
-
-    
-}
 }

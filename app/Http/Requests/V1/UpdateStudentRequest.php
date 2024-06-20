@@ -13,7 +13,14 @@ class UpdateStudentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true; 
+        
+
+        $user =$this->user();
+        
+        return $user = null && $user->tokenCan('update'); 
+
+        
+        //return true;
     }
 
     /**
@@ -38,7 +45,7 @@ class UpdateStudentRequest extends FormRequest
     }
 
     /**
-     * Prepare the data for validation.
+     * Prepare the data for validation. 
      *
      * @return void
      */

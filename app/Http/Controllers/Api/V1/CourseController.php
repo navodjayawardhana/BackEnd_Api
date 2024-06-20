@@ -10,6 +10,8 @@ use App\Http\Resources\V1\CourseResource;
 use App\Http\Resources\V1\CourseCollection;
 use App\Filters\V1\CourseFilter;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use App\Http\Requests\V1\BulkStoreCourseRequst;
 
 class CourseController extends Controller
 {
@@ -40,9 +42,18 @@ class CourseController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCourseRequest $request)
+    public function store(Request $request)
     {
         //
+    }
+
+    public function bulkStore(BulkStoreCourseRequst $request)
+    {
+       $bulk =collect($request->all())->map(function($arr,$key){
+        return Arr::except($arr,['student_id','title','description']);
+       });
+
+       Course::insert($bulk->toArray());
     }
 
     /**
@@ -64,7 +75,7 @@ class CourseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCourseRequest $request, Course $course)
+    public function update(Request $request, Course $course)
     {
         //
     }

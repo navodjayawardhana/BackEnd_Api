@@ -15,11 +15,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('v1')->group(function () {
+Route::group(['prefix'=>'v1','namespace'=>'App\Http\Controllers\Api\V1','middleware'=>'auth:sanctum'],function () {
     Route::apiResource('students', StudentController::class);
     Route::apiResource('courses', CourseController::class);
-
- 
+    Route::post('courses/bulk',['uses' => 'CourseController@bulkstore']);
     Route::get('students/{id}', 'App\Http\Controllers\Api\V1\StudentController@show'); 
     Route::put('students/{id}', 'App\Http\Controllers\Api\V1\StudentController@update'); 
     Route::delete('students/{id}', 'App\Http\Controllers\Api\V1\StudentController@destroy');
